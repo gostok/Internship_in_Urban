@@ -1,7 +1,7 @@
 import data_download as dd
 import data_plotting as dplt
-from calculate_price import calculate_and_display_average_price
-
+from addi_funcs.calculate_price import calculate_and_display_average_price
+from addi_funcs.fluctuation_notifications import notify_if_strong_fluctuations
 
 def main():
     print("Добро пожаловать в инструмент получения и построения графиков биржевых данных.")
@@ -22,6 +22,8 @@ def main():
 
     # Выводим среднюю цену закрытия
     calculate_and_display_average_price(stock_data)
+
+    notify_if_strong_fluctuations(stock_data, threshold=5)  # Уведомление при колебаниях более 5%
 
 
 if __name__ == "__main__":
