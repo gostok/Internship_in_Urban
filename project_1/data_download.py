@@ -1,9 +1,30 @@
 import yfinance as yf
 import pandas as pd
 
-def fetch_stock_data(ticker, period='1mo'):
+
+def fetch_stock_data(ticker, period='1mo', start_date=None, end_date=None):
+    """
+    Получает исторические данные акций для указанного тикера.
+
+    :param
+    - ticker (str): Тикер акции, для которой необходимо получить данные.
+    - period (str, optional): Период для получения данных (по умолчанию '1mo').
+    - start_date (str, optional): Дата начала в формате 'YYYY-MM-DD' (по умолчанию None).
+    - end_date (str, optional): Дата окончания в формате 'YYYY-MM-DD' (по умолчанию None).
+
+    :return
+    - pandas.DataFrame: Исторические данные акций в виде DataFrame, содержащий информацию о ценах (открытие, закрытие, максимумы, минимумы и объем) за указанный период или за указанные даты.
+
+    Исключения:
+    - ValueError: Если указаны некорректные даты или тикер.
+    """
     stock = yf.Ticker(ticker)
-    data = stock.history(period=period)
+
+    if start_date and end_date:
+        data = stock.history(start=start_date, end=end_date)
+    else:
+        data = stock.history(period=period)
+
     return data
 
 
