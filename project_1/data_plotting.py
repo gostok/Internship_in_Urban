@@ -2,8 +2,7 @@ import os
 import matplotlib.pyplot as plt
 import pandas as pd
 
-
-def create_and_save_plot(data, ticker, period, filename=None):
+def create_and_save_plot(data, ticker, period, filename=None, style='seaborn'):
     """
     Создает и сохраняет график цен акций с техническими индикаторами.
 
@@ -11,8 +10,12 @@ def create_and_save_plot(data, ticker, period, filename=None):
     :param ticker: Тикер акции для заголовка графика.
     :param period: Период, за который загружаются данные.
     :param filename: Имя файла для сохранения графика (по умолчанию генерируется автоматически).
+    :param style: Стиль оформления графика (по умолчанию 'seaborn').
     """
     os.makedirs('stock_files', exist_ok=True)
+
+    # Применяем выбранный стиль
+    plt.style.use(style)
 
     # Создаем фигуру с тремя подграфиками
     fig, axs = plt.subplots(3, 1, figsize=(10, 12), sharex=True)

@@ -32,10 +32,15 @@ def main():
     ticker = input("Введите тикер акции (например, «AAPL» для Apple Inc): ")
 
     # Запрос на ввод дат
-    start_date = input("Введите дату начала в формате YYYY-MM-DD (или оставьте пустым для предустановленного периода): ")
-    end_date = input("Введите дату окончания в формате YYYY-MM-DD (или оставьте пустым для предустановленного периода): ")
+    start_date = input(
+        "Введите дату начала в формате YYYY-MM-DD (или оставьте пустым для предустановленного периода): ")
+    end_date = input(
+        "Введите дату окончания в формате YYYY-MM-DD (или оставьте пустым для предустановленного периода): ")
 
-    # Проверка на пустые значения
+    # Запрос на выбор стиля графика
+    style = input("Введите стиль графика (например, 'seaborn', 'ggplot', 'bmh', 'dark_background' и т.д.): ")
+
+    # Проверка на пустые значения для дат
     if not start_date:
         start_date = None
     if not end_date:
@@ -55,8 +60,8 @@ def main():
     stock_data = dd.add_rsi(stock_data)
     stock_data = dd.add_macd(stock_data)
 
-    # Строим график
-    dplt.create_and_save_plot(stock_data, ticker, start_date, end_date)
+    # Строим график с выбранным стилем
+    dplt.create_and_save_plot(stock_data, ticker, start_date, end_date, style=style)
 
     # Выводим среднюю цену закрытия
     calculate_and_display_average_price(stock_data)
