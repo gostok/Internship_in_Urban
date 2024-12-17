@@ -56,6 +56,12 @@ def create_and_save_plot(data, ticker, period, filename=None, style='seaborn'):
         axs[2].set_ylabel("MACD")
         axs[2].legend()
 
+    # График стандартного отклонения
+    if 'Standard Deviation' in data:
+        std_dev = data['Standard Deviation'].iloc[0]  # Получаем стандартное отклонение
+        axs[0].axhline(y=std_dev, color='red', linestyle='--', label='Стандартное отклонение')
+        axs[0].legend()
+
     plt.xlabel("Дата")
 
     if filename is None:

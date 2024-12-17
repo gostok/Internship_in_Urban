@@ -3,6 +3,7 @@ import data_plotting as dplt
 from addi_funcs.calculate_price import calculate_and_display_average_price
 from addi_funcs.fluctuation_notifications import notify_if_strong_fluctuations
 from addi_funcs.data_to_csv import export_data_to_csv
+from addi_funcs.standard_deviation import add_standard_deviation
 
 def main():
     """
@@ -60,6 +61,9 @@ def main():
     stock_data = dd.add_rsi(stock_data)
     stock_data = dd.add_macd(stock_data)
 
+    # Добавляем стандартное отклонение к данным
+    stock_data = add_standard_deviation(stock_data)
+
     # Строим график с выбранным стилем
     dplt.create_and_save_plot(stock_data, ticker, start_date, end_date, style=style)
 
@@ -67,10 +71,16 @@ def main():
     calculate_and_display_average_price(stock_data)
 
     # Загружаем данные об акциях в CSV файл.
-    export_data_to_csv(stock_data, f'{ticker}_{start_date}_{end_date}')
+    if start_date and end_date:
+        export_data_to_csv(stock_data, f'{ticker}_{start_date}_{end_date}_stock_price_chart_csv')
+    else:
+        export_data_to_csv(stock_data, f'{ticker}_{period}_stock_price_chart_csv')
 
     notify_if_strong_fluctuations(stock_data, threshold=5)  # Уведомление при колебаниях более 5%
 
+    # Выводим стандартное отклонение
+    std_dev = stock_data['Standard Deviation'].iloc[0]  # Получаем стандартное отклонение
+    print(f"Стандартное отклонение цены закрытия для {ticker}: {std_dev:.2f}")
 
 
 if __name__ == "__main__":
