@@ -1,6 +1,7 @@
 import os
 import matplotlib.pyplot as plt
 import pandas as pd
+import plotly.graph_objects as go
 
 def create_and_save_plot(data, ticker, period, filename=None, style='seaborn'):
     """
@@ -71,3 +72,33 @@ def create_and_save_plot(data, ticker, period, filename=None, style='seaborn'):
     plt.tight_layout()
     plt.savefig(filepath)
     print(f"График сохранен как {filename}")
+
+
+def create_interactive_plot(data, ticker):
+    """
+    Создает интерактивный график с использованием Plotly.
+
+    :param data: DataFrame с данными акций.
+    """
+
+    # Вычисляем среднее значение колонки 'Close'
+    average_close = data['Close'].mean()
+    print(f'Среднее значение цены закрытия для '
+          f'{data.index[-1].date()}: {average_close:.2f}')
+
+    # Создаем интерактивный график
+    fig = go.Figure()
+    fig.add_trace(go.Scatter(x=data.index, y=data['Close'],
+                             mode='lines', name='Цена закрытия'))
+
+    # Добавляем линию для скользящего среднего, если оно существует
+    if 'Moving_Average' in data:
+        fig.add_trace(go.Scatter(x=data.index, y=data['Moving_Average'],
+                                 mode='lines', name='Скользящее среднее'))
+
+    fig.update_layout(title=f'График акций {ticker}',
+                      xaxis_title='Дата',
+                      yaxis_title='Цена',
+                      legend_title='Легенда')
+
+    fig.show()

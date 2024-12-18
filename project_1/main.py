@@ -64,6 +64,9 @@ def main():
     # Добавляем стандартное отклонение к данным
     stock_data = add_standard_deviation(stock_data)
 
+    # Создаем интерактивный график
+    dplt.create_interactive_plot(stock_data, ticker)
+
     # Строим график с выбранным стилем
     dplt.create_and_save_plot(stock_data, ticker, start_date, end_date, style=style)
 
